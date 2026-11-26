@@ -53,8 +53,8 @@ def _json(raw: bytes) -> Any:
 
 
 def _load(path: Path) -> Any:
-    if path.is_symlink():
-        raise ValueError("symlinked case file")
+    if path.is_symlink() or not path.is_file():
+        raise ValueError("case inputs must be regular files")
     with path.open("rb") as stream:
         return _json(stream.read(MAX_BYTES + 1))
 
